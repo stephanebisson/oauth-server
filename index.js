@@ -1,33 +1,12 @@
 var express = require('express'),
+	mongoose = require('mongoose'),
   oauthserver = require('node-oauth2-server');
 
 var app = express();
 
 app.configure(function() {
   app.oauth = oauthserver({
-    model: {
-    	getAccessToken: function (bearerToken, callback) {
-    		console.log('getAccessToken', arguments);
-    		return callback(null, {expires: null, userId: 1});
-    	},
-    	getClient: function(clientId, clientSecret, callback) {
-    		console.log('getClient', arguments);
-    		return callback(null, {clientId: clientId});
-    	},
-    	grantTypeAllowed: function(clientId, grantType, callback) {
-    		console.log('grantTypeAllowed', arguments);
-    		var allowed = clientId === 1 && grantType === 'password';
-    		return callback(null, true);
-    	},
-    	saveAccessToken: function(accessToken, clientId, expires, user, callback) {
-    		console.log('saveAccessToken', arguments);
-    		return callback(null);
-    	},
-    	getUser: function(username, password, callback) {
-    		console.log('getUser', arguments);
-    		return callback(null, {id: 1});
-    	}
-    },
+    model: require('./model'),
     grants: ['password'],
     debug: true
   });
@@ -45,4 +24,13 @@ app.get('/', app.oauth.authorise(), function (req, res) {
 
 app.use(app.oauth.errorHandler());
 
-app.listen(3000);
+mongoose.connect(process.env.MONGOHQ_URL, function (err, res) {
+  if (err) { 
+    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    console.log ('Succeeded connected to: ' + uristring);
+    app.listen(3000);
+  }
+});
+
+

@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "node-oauth2-server": "^2.1.1",
-    "express": "~3"
+    "express": "~3",
+    "mongoose": "^3.8.11"
   }
 }
