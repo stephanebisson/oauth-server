@@ -26,9 +26,9 @@ app.use(app.oauth.errorHandler());
 
 mongoose.connect(process.env.MONGOHQ_URL, function (err, res) {
   if (err) { 
-    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+    console.log ('ERROR connecting to mongo. ' + err);
   } else {
-    console.log ('Succeeded connected to: ' + uristring);
+    console.log ('Succeeded connected to mongo');
     app.listen(3000);
   }
 });
