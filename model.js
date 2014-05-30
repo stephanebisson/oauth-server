@@ -41,18 +41,12 @@ var OAuthClientsSchema = new Schema({
   redirectUri: { type: String }
 });
 
-var OAuthUsersSchema = new Schema({
-  username: { type: String },
-  password: { type: String },
-  firstname: { type: String },
-  lastname: { type: String },
-  email: { type: String, default: '' }
-});
+var OAuthUsersSchema = require('./user.js');
 
 mongoose.model('OAuthAccessTokens', OAuthAccessTokensSchema);
 mongoose.model('OAuthRefreshTokens', OAuthRefreshTokensSchema);
 mongoose.model('OAuthClients', OAuthClientsSchema);
-mongoose.model('OAuthUsers', OAuthUsersSchema);
+// mongoose.model('OAuthUsers', OAuthUsersSchema);
 
 var OAuthAccessTokensModel = mongoose.model('OAuthAccessTokens'),
   OAuthRefreshTokensModel = mongoose.model('OAuthRefreshTokens'),
@@ -71,7 +65,8 @@ model.getAccessToken = function (bearerToken, callback) {
 model.getClient = function (clientId, clientSecret, callback) {
   console.log('in getClient (clientId: ' + clientId + ', clientSecret: ' + clientSecret + ')');
 
-  OAuthClientsModel.findOne({ clientId: clientId, clientSecret: clientSecret }, callback);
+  // OAuthClientsModel.findOne({ clientId: clientId, clientSecret: clientSecret }, callback);
+  callback(null, {clientId: clientId});
 };
 
 model.grantTypeAllowed = function (clientId, grantType, callback) {

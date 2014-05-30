@@ -22,6 +22,21 @@ app.get('/', app.oauth.authorise(), function (req, res) {
   res.send('Secret area');
 });
 
+var OAuthUsersSchema = require('./user.js');
+
+app.post('/users', function(req, res, next) {
+	console.log('creating user with', req.body);
+	var user = new OAuthUsersSchema(req.body);
+	user.save(function(err){
+		if (err) {
+			console.log('error creating user', err);
+			res.send(500, err);
+		} else {
+			res.send(201);
+		}
+	});
+});
+
 app.use(app.oauth.errorHandler());
 
 mongoose.connect(process.env.MONGOHQ_URL, function (err, res) {
