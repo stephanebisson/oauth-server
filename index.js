@@ -1,6 +1,7 @@
 var express = require('express'),
 	mongoose = require('mongoose'),
-  oauthserver = require('node-oauth2-server');
+  oauthserver = require('node-oauth2-server'),
+  hanson = require('hanson');
 
 var app = express();
 
@@ -19,7 +20,12 @@ app.all('/oauth/token', function(req, res, next) {
 }, app.oauth.grant());
 
 app.get('/user', app.oauth.authorise(), function (req, res) {
-  res.send(200, req.user.id);
+	var user = hanson.parse(req.user.id.replace(/(_id\:.*?,)/, ''));
+  res.json(200, {
+  	firstname: user.firstname,
+  	lastname: user.lastname,
+  	email: user.email
+  });
 });
 
 var OAuthUsersSchema = require('./user.js');
