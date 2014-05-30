@@ -18,8 +18,8 @@ app.all('/oauth/token', function(req, res, next) {
 	return next();
 }, app.oauth.grant());
 
-app.get('/', app.oauth.authorise(), function (req, res) {
-  res.send('Secret area');
+app.get('/user', app.oauth.authorise(), function (req, res) {
+  res.send(200, req.user.id);
 });
 
 var OAuthUsersSchema = require('./user.js');
