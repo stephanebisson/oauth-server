@@ -29,7 +29,8 @@ mongoose.connect(process.env.MONGOHQ_URL, function (err, res) {
     console.log ('ERROR connecting to mongo. ' + err);
   } else {
     console.log ('Succeeded connected to mongo');
-    app.listen(3000);
+    var port = Number(process.env.PORT || 3000);
+    app.listen(port);
   }
 });
 
