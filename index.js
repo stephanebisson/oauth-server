@@ -22,9 +22,10 @@ app.all('/oauth/token', function(req, res, next) {
 app.get('/user', app.oauth.authorise(), function (req, res) {
 	var user = hanson.parse(req.user.id.replace(/(_id\:.*?,)/, ''));
   res.json(200, {
-  	firstname: user.firstname,
-  	lastname: user.lastname,
-  	email: user.email
+		firstname: user.firstname,
+		lastname: user.lastname,
+		email: user.email,
+		bsauth_id: 12345
   });
 });
 
